@@ -1,6 +1,11 @@
 <?php
-	if(isset($_POST["facebookURL"])){
+	if(isset($_POST["facebookURL"])) {
 		$URL = $_POST["facebookURL"];
+		$facebookID = getFacebookID($URL);
+		$profile_pic =  "http://graph.facebook.com/".$facebookID."/picture?width=1000&height=1000"; 		
+	}
+
+	function getFacebookID($URL) {
 		$facebookID =substr($URL,25);
 		$arr = explode("?", $facebookID);
 		$facebookID = $arr[0]; 
@@ -13,7 +18,7 @@
 				} 
 			}
 		}
-		$profile_pic =  "http://graph.facebook.com/".$facebookID."/picture?width=1000&height=1000"; 		
+		return $facebookID;
 	}
 
 ?>
@@ -23,19 +28,19 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<style type="text/css">
-
-
-</style>
 <body>
 	<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=423234424463544&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+	(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=423234424463544&version=v2.0";
+		  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
+
 	<div class="container">
 		<div class="page-header text-center">
 		  <h1>Get hidden profile picture<small> Facebook </small></h1>
@@ -53,7 +58,7 @@
 				</form>
 				<div class="text-center">
 					<?php
-						if(isset($_POST["facebookURL"])){
+						if(isset($URL)){
 							echo "<img onerror=\"this.style.display = 'none'; $('#invalid-image-error').show().text('The link is invalid!'); \" src=\"" . $profile_pic . "\" class=\"img-thumbnail img-rounded\"/>"; 
 						}
 					?>
@@ -62,11 +67,10 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="fb-like pull-right" data-href="https://get-hidden-profile-picture.herokuapp.com" data-layout="button_count" data-action="like" layout="box_count" data-show-faces="true" data-share="false"></div>
+				<div class="fb-like pull-right" data-href="https://getfpp.herokuapp.com" data-layout="button_count" data-action="like" layout="box_count" data-show-faces="true" data-share="false"></div>
 			</div>
 		</div>  
 	</div>
-
 </div>
 </body>
 </html>
